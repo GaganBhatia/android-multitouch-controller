@@ -1,6 +1,9 @@
-/**
-/* Code based off the PhotoSortrView from Luke Hutchinson's MTPhotoSortr
+/*
+ * Code based off the PhotoSortrView from Luke Hutchinson's MTPhotoSortr
  * example (http://code.google.com/p/android-multitouch-controller/)
+ *
+ * License:
+ *   Dual-licensed under the Apache License v2 and the GPL v2.
  */
 
 package org.metalev.multitouch.controller;
