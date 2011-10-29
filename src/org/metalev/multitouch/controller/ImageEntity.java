@@ -5,7 +5,6 @@
  * License:
  *   Dual-licensed under the Apache License v2 and the GPL v2.
  */
-
 package org.metalev.multitouch.controller;
 
 import android.graphics.drawable.Drawable;
