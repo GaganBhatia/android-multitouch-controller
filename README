@@ -1,0 +1,33 @@
+This MultiTouch Controller class makes it much easier to write multitouch applications for Android:
+
+-- It filters out "event noise" on Synaptics touch screens (G1, MyTouch, Nexus One) -- for example, when you have two touch points down and lift just one finger, each of the ordinates X and Y can be lifted in separate touch events, meaning you get a spurious motion event (or several events) consisting of a sudden fast snap of the touch point to the other axis before the correct single touch event is generated.
+
+-- It simplifies the somewhat messy and inconsistent MotionEvent touch point API -- this API has grown from handling single touch points, potentially with packaged event history (Android 1.6 and earlier) to multiple indistinguised touch points (Android 2.0) to the potential for handling multiple touch points that are kept distinct even if lower-indexed touchpoints are raised (and thus each point has an index and generates its own indexed touch-up/touch-down event). All this means there are a lot of API quirks you have to be aware of. This MultiTouch Controller class simplifies getting access to these events for applications that just want event positions and up/down status.
+
+-- The controller also supports pinch-zoom, including tracking the transformation between screen coordinates and object coordinates. It correctly centers the pinch operation about the center of the pinch (not about the center of the screen, as with most of the "Google Experience" apps that added their own pinch-zoom capability in Android-2.x). This also means that you can do a combined pinch-drag operation that will simultaneously translate and scale an object. This is the only natural way to implement pinch-zoom, and subconsciously feels much more natural than scaling about the center of the screen. Compare pinch-zoom in Google Maps to Fractoid (in Market) to see what I mean -- Fractoid uses this multitouch controller code.
+
+-- The controller was recently updated to support pinch-rotate, allowing you to physically twist objects using two touch points on the screen. In fact all of rotate, scale and translate can be simultaneously adjusted based on relative movements of the first two touch points. NOTE: rotation is quirky on older touchscreen devices that use a Synaptics or Synaptics-like "2x1D" sensor (G1, MyTouch, Droid, Nexus One) and not a true 2D sensor like the HTC Incredible or HTC EVO 4G. The quirky behavior results from "axis snapping" when the two points get close together in X or Y, and "ordinate confusion" where (x1,y1) and (x2,y2) get confused for (x1,y2) and (x2,y1). There is no way around this other than to keep the two fingers in the same two relative quadrants (i.e. keep them on a leading or a trailing diagonal), or to disallow rotation on these devices. (In spite of misinformation on the Web, there is also no firmware or software update that can fix this problem, it is a hardware limitation. Hopefully all newer phones will have a true 2D touch sensor.)
+
+-- I also added anisotropic scaling as an alternative to using the rotation and scale information, so that if you are scaling something like a graph which has a different X and Y scale, you can dynamically change both scales by simultaneously stretching in horizontal and vertical directions.
+
+-- The controller makes it very easy to work with a canvas of separate objects (e.g. a stack of photos), each of which can be separately dragged with a single touch point or scaled with a pinch operation.
+
+An example of how to use the API is included in the "MTPhotoSortr" demo app in the source repository linked above. (The source is not very polished but it shows you the basics of how to use the controller.) A second example is the app in the Android Market called "MultiTouch Visualizer 2". The source for this app is available at http://code.google.com/p/android-multitouch-vizualizer/ .
+
+Dual-licensed under the Apache License v2 and the GPL v2.
+
+Please send me a note if you use this code, I'm interested to see where it is used. So far I know of:
+
+- Collage by David Erosa
+- RoidRage by Paul Bourke
+- The Fundroid development platform by Ignacio Bautiste Cuervo
+- Androzic by Andrey Novikov
+- Go Scoring Camera by Jim Babcock
+- Fractoid by Dave Byrne
+- Face Frenzy by Mickael Despesse
+- Yuan Chin's fork of ADW Launcher that supports multitouch
+- mmin's handyCalc calculator
+- My own app "MultiTouch Visualizer 2"
+- Formerly: The browser in cyanogenmod (and before that, JesusFreke), and other firmwares like dwang5. This usage has been replaced with official pinch/zoom in Maps, Browser and Gallery3D as of API level 5.
+
+-- Luke Hutchison -- luke.dot.hutch.at.mit.dot.edu, or @LH on Twitter
